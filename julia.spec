@@ -37,6 +37,7 @@ BuildRequires:  gmp-devel >= 5.0
 # Needed for libgit2 test
 BuildRequires:  hostname
 BuildRequires:  imagemagick
+BuildRequires:	pkgconfig(atlas)
 BuildRequires:  pkgconfig(libgit2)
 #BuildRequires:  libunwind-devel
 BuildRequires:  llvm-devel >= %llvmversion
@@ -53,7 +54,6 @@ BuildRequires:  zlib-devel
 # Needed for package management until the switch  to libgit2
 Requires:       git
 Requires:       julia-common = %{version}-%{release}
-Requires:       openblas-threads
 # Currently, Julia does not work properly architectures other than x86
 # https://bugzilla.redhat.com/show_bug.cgi?id=1158024
 # https://bugzilla.redhat.com/show_bug.cgi?id=1158026

@@ -1,0 +1,5 @@
+addFilter("E: devel-file-in-non-devel-package")
+addFilter("E: non-standard-dir-perm")
+addFilter("E: library-not-linked-against-libc")
+addFilter("E: unstripped-binary-or-object")
+addFilter("E: incoherent-version-in-name")

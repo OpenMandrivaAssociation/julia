@@ -152,6 +152,11 @@ sed -i 's/-lLLVM/$(shell $(LLVM_CONFIG_HOST) --libs)/' src/Makefile
 sed -i 's/extern int asprintf(char \*\*str, const char \*fmt, ...);//' src/init.c
 
 %build
+%ifarch %ix86
+export CC=gcc
+export CXX=g++
+%endif
+
 # Need to repeat -march here to override i686 from optflags
 # USE_ORCJIT needs to be set directly since it's disabled by default with USE_SYSTEM_LLVM=1
 %global buildflags CFLAGS="%{optflags} -march=%{march}" CXXFLAGS="%{optflags} -march=%{march} -DUSE_ORCJIT"

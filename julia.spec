@@ -9,7 +9,7 @@
 
 Name:           julia
 Version:        0.6.0
-Release:        0.1.pre.alpha%{?dist}
+Release:        1
 Summary:        High-level, high-performance dynamic language for technical computing
 Group:          Development/Other
 # Julia itself is MIT, with a few LGPLv2+ and GPLv2+ files

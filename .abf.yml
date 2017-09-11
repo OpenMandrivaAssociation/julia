@@ -1,6 +1,6 @@
 sources:
   dsfmt-2.2.3.tar.gz: 586383e7908adedf12c302c253958549c3b4e7c6
-  julia-0.6.0-pre.alpha.tar.gz: 063d5158ecda7c7d3d220703202e158e02590876
+  julia-0.6.0.tar.gz: 3bb82fbaeaee57dbbfe7505b03acb10c7becd510
   libunwind-1.1-julia2.tar.gz: 02e4476f909ef70ab8ccfb376bc580a84adc87d1
   libuv-52d72a52cc7ccd570929990f010ed16e2ec604c8.tar.gz: e4fc1fa4c69044a92a820a6e04163aa6d38cdd99
   openblas-85636ff1a015d04d3a8f960bc644b85ee5157135.tar.gz: f78b1b2bcb0b11854b92d77cc7068b9fc3538031

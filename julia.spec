@@ -105,7 +105,7 @@ needed when programming in the Julia language, but rather for embedding
 Julia into external programs or debugging Julia itself.
 
 %prep
-%setup -qn julia-0.6.0-pre.alpha
+%setup -q
 
 mkdir -p deps/srccache
 

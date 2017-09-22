@@ -19,13 +19,11 @@ URL:            http://julialang.org/
 Source0:        https://github.com/JuliaLang/julia/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Julia currently uses a custom version of libuv, patches are not yet upstream
 Source1:        https://api.github.com/repos/JuliaLang/libuv/tarball/libuv-%{uvcommit}.tar.gz
-Source2:        https://s3.amazonaws.com/julialang/src/libunwind-%{unwindversion}.tar.gz
 Source3:	dsfmt-2.2.3.tar.gz
 Source4:	openblas-85636ff1a015d04d3a8f960bc644b85ee5157135.tar.gz
 Source5:	utf8proc-40e605959eb5cb90b2587fa88e3b661558fbc55a.tar.gz
 Source100:	julia.rpmlintrc
 Provides:       bundled(libuv) = %{uvversion}
-Provides:       bundled(libunwind) = %{unwindversion}
 BuildRequires:  arpack-devel
 BuildRequires:  desktop-file-utils
 #BuildRequires:  dSFMT-devel
@@ -114,7 +112,6 @@ pushd deps/srccache
     # we need to copy the tarball and let the build process unpack it
     # https://github.com/JuliaLang/julia/pull/10280
     cp -p %SOURCE1 .
-    cp -p %SOURCE2 .
     cp -p %SOURCE3 .
     cp -p %SOURCE4 .
     cp -p %SOURCE5 .
@@ -159,10 +156,10 @@ export CXX=g++
 
 # Need to repeat -march here to override i686 from optflags
 # USE_ORCJIT needs to be set directly since it's disabled by default with USE_SYSTEM_LLVM=1
-%global buildflags CFLAGS="%{optflags} -march=%{march}" CXXFLAGS="%{optflags} -march=%{march} -DUSE_ORCJIT"
+%global buildflags CFLAGS="%{optflags} -march=%{march}" CXXFLAGS="%{optflags} -march=%{march}"
 
 # If debug is not built here, it is built during make install
-make %{?_smp_mflags} %{buildflags} %{commonopts} release debug
+%make -j1 %{buildflags} %{commonopts} release debug
 
 %check
 # cb this fails to run on abf

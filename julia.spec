@@ -159,14 +159,14 @@ export CXX=g++
 %global buildflags CFLAGS="%{optflags} -march=%{march}" CXXFLAGS="%{optflags} -march=%{march}"
 
 # If debug is not built here, it is built during make install
-%make -j1 %{buildflags} %{commonopts} release debug
+%make -j1 CC=$CC CXX=$CXX %{buildflags} %{commonopts} release debug
 
 %check
 # cb this fails to run on abf
-#make %{commonopts} test
+#make CC=$CC CXX=$CXX %{commonopts} test
 
 %install
-make %{commonopts} DESTDIR=%{buildroot} install
+make CC=$CC CXX=$CXX %{commonopts} DESTDIR=%{buildroot} install
 
 # Julia currently needs the unversioned .so files:
 # https://github.com/JuliaLang/julia/issues/6742

@@ -19,14 +19,14 @@ URL:            http://julialang.org/
 Source0:        https://github.com/JuliaLang/julia/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Julia currently uses a custom version of libuv, patches are not yet upstream
 Source1:        https://api.github.com/repos/JuliaLang/libuv/tarball/libuv-%{uvcommit}.tar.gz
-Source3:	dsfmt-2.2.3.tar.gz
+#Source3:	dsfmt-2.2.3.tar.gz
 Source4:	openblas-85636ff1a015d04d3a8f960bc644b85ee5157135.tar.gz
-Source5:	utf8proc-40e605959eb5cb90b2587fa88e3b661558fbc55a.tar.gz
+#Source5:	utf8proc-40e605959eb5cb90b2587fa88e3b661558fbc55a.tar.gz
 Source100:	julia.rpmlintrc
 Provides:       bundled(libuv) = %{uvversion}
 BuildRequires:  arpack-devel
 BuildRequires:  desktop-file-utils
-#BuildRequires:  dSFMT-devel
+BuildRequires:  dSFMT-devel
 BuildRequires:  fftw-devel >= 3.3.2
 BuildRequires:  gcc-c++
 # Needed to test package management until the switch to libgit2
@@ -47,7 +47,7 @@ BuildRequires:  openssl
 BuildRequires:  pcre-devel
 BuildRequires:  perl
 BuildRequires:  suitesparse-devel
-#BuildRequires:  utf8proc-devel >= 2.1
+BuildRequires:  utf8proc-devel >= 2.1
 BuildRequires:  zlib-devel
 # Needed for package management until the switch  to libgit2
 Requires:       git
@@ -112,9 +112,9 @@ pushd deps/srccache
     # we need to copy the tarball and let the build process unpack it
     # https://github.com/JuliaLang/julia/pull/10280
     cp -p %SOURCE1 .
-    cp -p %SOURCE3 .
+#    cp -p %SOURCE3 .
     cp -p %SOURCE4 .
-    cp -p %SOURCE5 .
+#    cp -p %SOURCE5 .
 popd
 
 # Required so that the image is not optimized for the build CPU
@@ -142,7 +142,7 @@ popd
 
 # About build, build_libdir and build_bindir, see https://github.com/JuliaLang/julia/issues/5063#issuecomment-32628111
 %global julia_builddir %{_builddir}/%{name}/build
-%global commonopts AT=%_bindir/ar CC=$CC CXX=$CXX USE_SYSTEM_LLVM=1 USE_LLVM_SHLIB=1 LLVM_CONFIG=%{_bindir}/llvm-config USE_SYSTEM_LIBUNWIND=0 USE_SYSTEM_READLINE=1 USE_SYSTEM_PCRE=0 USE_SYSTEM_OPENSPECFUN=1 USE_SYSTEM_BLAS=1 USE_SYSTEM_LAPACK=1 USE_SYSTEM_FFTW=1 USE_SYSTEM_GMP=1 USE_SYSTEM_MPFR=1 USE_SYSTEM_ARPACK=1 USE_SYSTEM_SUITESPARSE=1 USE_SYSTEM_ZLIB=1 USE_SYSTEM_GRISU=1 USE_SYSTEM_DSFMT=0 USE_SYSTEM_LIBUV=0 USE_SYSTEM_UTF8PROC=0 USE_SYSTEM_LIBGIT2=1 USE_SYSTEM_LIBSSH2=1 USE_SYSTEM_MBEDTLS=1 USE_SYSTEM_PATCHELF=1 USE_SYSTEM_LIBM=1 USE_SYSTEM_OPENLIBM=0 VERBOSE=1 MARCH=%{march} %{blas} prefix=%{_prefix} bindir=%{_bindir} libdir=%{_libdir} libexecdir=%{_libexecdir} datarootdir=%{_datarootdir} includedir=%{_includedir} sysconfdir=%{_sysconfdir} build_prefix=%{julia_builddir} build_bindir=%{julia_builddir}%{_bindir} build_libdir=%{julia_builddir}%{_libdir} build_private_libdir=%{julia_builddir}%{_libdir}/julia build_libexecdir=%{julia_builddir}%{_libexecdir} build_datarootdir=%{julia_builddir}%{_datarootdir} build_includedir=%{julia_builddir}%{_includedir} build_sysconfdir=%{julia_builddir}%{_sysconfdir} JULIA_CPU_CORES=$(echo %{?_smp_mflags} | sed s/-j//)
+%global commonopts AT=%_bindir/ar CC=$CC CXX=$CXX USE_SYSTEM_LLVM=1 USE_LLVM_SHLIB=1 LLVM_CONFIG=%{_bindir}/llvm-config USE_SYSTEM_LIBUNWIND=0 USE_SYSTEM_READLINE=1 USE_SYSTEM_PCRE=0 USE_SYSTEM_OPENSPECFUN=1 USE_SYSTEM_BLAS=1 USE_SYSTEM_LAPACK=1 USE_SYSTEM_FFTW=1 USE_SYSTEM_GMP=1 USE_SYSTEM_MPFR=1 USE_SYSTEM_ARPACK=1 USE_SYSTEM_SUITESPARSE=1 USE_SYSTEM_ZLIB=1 USE_SYSTEM_GRISU=1 USE_SYSTEM_DSFMT=1 USE_SYSTEM_LIBUV=0 USE_SYSTEM_UTF8PROC=1 USE_SYSTEM_LIBGIT2=1 USE_SYSTEM_LIBSSH2=1 USE_SYSTEM_MBEDTLS=1 USE_SYSTEM_PATCHELF=1 USE_SYSTEM_LIBM=1 USE_SYSTEM_OPENLIBM=0 VERBOSE=1 MARCH=%{march} %{blas} prefix=%{_prefix} bindir=%{_bindir} libdir=%{_libdir} libexecdir=%{_libexecdir} datarootdir=%{_datarootdir} includedir=%{_includedir} sysconfdir=%{_sysconfdir} build_prefix=%{julia_builddir} build_bindir=%{julia_builddir}%{_bindir} build_libdir=%{julia_builddir}%{_libdir} build_private_libdir=%{julia_builddir}%{_libdir}/julia build_libexecdir=%{julia_builddir}%{_libexecdir} build_datarootdir=%{julia_builddir}%{_datarootdir} build_includedir=%{julia_builddir}%{_includedir} build_sysconfdir=%{julia_builddir}%{_sysconfdir} JULIA_CPU_CORES=$(echo %{?_smp_mflags} | sed s/-j//)
 
 sed -i 's/-rcs/rcs/' src/support/Makefile src/flisp/Makefile
 sed -i 's/-lLLVM/$(shell $(LLVM_CONFIG_HOST) --libs)/' src/Makefile

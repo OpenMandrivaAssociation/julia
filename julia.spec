@@ -44,7 +44,7 @@ BuildRequires:  mpfr-devel >= 3.0
 BuildRequires:  openspecfun-devel >= 0.4
 # Needed for libgit2 test
 BuildRequires:  openssl
-BuildRequires:  pcre-devel
+BuildRequires:  pkgconfig(pcre2)
 BuildRequires:  perl
 BuildRequires:  suitesparse-devel
 BuildRequires:  utf8proc-devel >= 2.1

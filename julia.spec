@@ -15,7 +15,7 @@ Group:          Development/Other
 # Julia itself is MIT, with a few LGPLv2+ and GPLv2+ files
 # libuv is MIT
 License:        MIT and LGPLv2+ and GPLv2+
-URL:            http://julialang.org/
+URL:            https://julialang.org/
 Source0:        https://github.com/JuliaLang/julia/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Julia currently uses a custom version of libuv, patches are not yet upstream
 Source1:        https://api.github.com/repos/JuliaLang/libuv/tarball/libuv-%{uvcommit}.tar.gz

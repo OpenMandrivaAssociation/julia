@@ -24,6 +24,7 @@ Source4:	openblas-85636ff1a015d04d3a8f960bc644b85ee5157135.tar.gz
 #Source5:	utf8proc-40e605959eb5cb90b2587fa88e3b661558fbc55a.tar.gz
 Source100:	julia.rpmlintrc
 Provides:       bundled(libuv) = %{uvversion}
+BuildRequires:	make
 BuildRequires:  arpack-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  dSFMT-devel

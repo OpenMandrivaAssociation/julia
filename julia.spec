@@ -54,7 +54,10 @@ BuildRequires:	suitesparse-devel
 %ifarch aarch64
 %global march armv8-a
 %global julia_cpu generic;cortex-a57;thunderx2t99
+# Bundled LLVM libunwind misses outline-atomic helpers on aarch64
+%global julia_sys_unwind 1
 %endif
+%{!?julia_sys_unwind:%global julia_sys_unwind 0}
 
 Requires:	7zip
 Requires:	%{libname} = %{EVRD}

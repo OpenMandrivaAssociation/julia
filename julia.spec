@@ -16,7 +16,6 @@ License:	MIT and GPLv2+ and LGPLv2+
 Url:		https://julialang.org/
 # Full tarball includes LLVM 18.1.7+patches and other deps (ABF has no network)
 Source0:	https://github.com/JuliaLang/julia/releases/download/v%{version}/julia-%{version}-full.tar.gz
-Source100:	julia.rpmlintrc
 
 BuildRequires:	make
 BuildRequires:	cmake
@@ -25,6 +24,7 @@ BuildRequires:	perl
 BuildRequires:	m4
 BuildRequires:	patch
 BuildRequires:	gcc-gfortran
+BuildRequires:	%{_lib}atomic-devel
 BuildRequires:	patchelf
 BuildRequires:	which
 BuildRequires:	7zip

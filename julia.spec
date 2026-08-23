@@ -54,10 +54,7 @@ BuildRequires:	suitesparse-devel
 %ifarch aarch64
 %global march armv8-a
 %global julia_cpu generic;cortex-a57;thunderx2t99
-# Bundled LLVM libunwind misses outline-atomic helpers on aarch64
-%global julia_sys_unwind 1
 %endif
-%{!?julia_sys_unwind:%global julia_sys_unwind 0}
 
 Requires:	7zip
 Requires:	%{libname} = %{EVRD}
@@ -139,6 +136,15 @@ CXXFLAGS+=-include cstdint -Wno-error=c2y-extensions -Wno-unknown-warning-option
 EOF
 # LLVM 18's bundled google-benchmark treats __COUNTER__ as -Werror=c2y with Clang 23
 sed -i '/^LLVM_CMAKE :=/a LLVM_CMAKE += -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_TESTS=OFF' deps/llvm.mk
+# Decide at build time (not SRPM parse). Clang 23 outline-atomics emit
+# __aarch64_ldadd*_acq_rel; bundled libunwind.so.8 is not linked to libatomic.
+# System nongnu libunwind lives in /usr/lib64/libunwind and cannot be used
+# as a drop-in (LLVM libunwind owns the unprefixed soname).
+if [ "$(uname -m)" = aarch64 ]; then
+	echo 'CFLAGS+=-mno-outline-atomics' >> Make.user
+	echo 'CXXFLAGS+=-mno-outline-atomics' >> Make.user
+	sed -i 's/^LIBUNWIND_CFLAGS := /LIBUNWIND_CFLAGS := -mno-outline-atomics /' deps/unwind.mk
+fi
 
 %build
 export CC=%{__cc}
@@ -147,6 +153,10 @@ export FC=gfortran
 # LLVM 18 headers assume uint64_t is visible; Clang 23 / libstdc++ 16 no longer leak it
 export CXXFLAGS="${CXXFLAGS:-} -include cstdint -Wno-error=c2y-extensions -Wno-unknown-warning-option"
 export CFLAGS="${CFLAGS:-} -Wno-error=c2y-extensions"
+if [ "$(uname -m)" = aarch64 ]; then
+	export CFLAGS="${CFLAGS} -mno-outline-atomics"
+	export CXXFLAGS="${CXXFLAGS} -mno-outline-atomics"
+fi
 %make_build
 
 %install

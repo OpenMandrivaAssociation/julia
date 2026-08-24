@@ -8,7 +8,7 @@
 
 Name:		julia
 Version:	1.12.7
-Release:	1
+Release:	2
 Summary:	High-level, high-performance dynamic language for technical computing
 Group:		Development/Other
 # Julia is MIT; bundled SuiteSparse/GMP bits can be GPL when not using system copies
@@ -16,6 +16,15 @@ License:	MIT and GPLv2+ and LGPLv2+
 Url:		https://julialang.org/
 # Full tarball includes LLVM 18.1.7+patches and other deps (ABF has no network)
 Source0:	https://github.com/JuliaLang/julia/releases/download/v%{version}/julia-%{version}-full.tar.gz
+
+# Julia's libuv is a JuliaLang fork (SONAME 2 vs system libuv.so.1). Upstream
+# says not to use the system library. Bundled libunwind is patched nongnu 1.8
+# with a Julia-only unw_ensure_tls (USE_SYSTEM_LIBUNWIND is broken). Cooker
+# nongnu libunwind also lives under %{_libdir}/libunwind because LLVM owns
+# the unprefixed soname. Keep the private copies, but do not advertise them
+# as satisfying other packages' libuv.so.2 / libunwind.so.8 dependencies.
+%global __provides_exclude ^lib(uv|unwind)\\.so
+%global __requires_exclude ^lib(uv|unwind)\\.so
 
 BuildRequires:	make
 BuildRequires:	cmake
@@ -87,8 +96,9 @@ in other programs (for example Cantor's Julia backend).
 %autosetup -p1 -n %{name}-%{version}
 
 # LLVM is bundled (Julia 1.12 needs patched 18.1.7; cooker LLVM is 23).
-# libuv, openlibm, dSFMT, libunwind, and libblastrampoline are Julia forks
-# or not packaged here.
+# libuv is a JuliaLang fork (not the system libuv.so.1). libunwind is a
+# patched nongnu 1.8 with Julia-only symbols. openlibm, dSFMT, and
+# libblastrampoline are Julia forks or not packaged here.
 cat > Make.user << 'EOF'
 prefix=%{_prefix}
 bindir=%{_bindir}

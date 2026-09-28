@@ -1,8 +1,8 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 
-# Public SONAME is libjulia.so.1.12
-%define major 1.12
+# Public SONAME is libjulia.so.1.13
+%define major 1.13
 %define libname %mklibname julia %{major}
 %define devname %mklibname julia -d
 

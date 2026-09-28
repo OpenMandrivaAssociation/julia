@@ -1,5 +1,9 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
+# dwz leaves temporary files next to the bundled dsymutil, lld and zstd copies.
+%define __os_install_post %{__os_install_post} \
+find %{buildroot}/usr/lib/debug -name '*dwz*' -delete \
+%{nil}
 
 # Public SONAME is libjulia.so.1.13
 %define major 1.13

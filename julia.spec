@@ -9,7 +9,7 @@
 %define devname %mklibname julia -d
 
 Name:		julia
-Version:	1.13.1
+Version:	1.13.2
 Release:	1
 Summary:	High-level, high-performance dynamic language for technical computing
 Group:		Development/Other
